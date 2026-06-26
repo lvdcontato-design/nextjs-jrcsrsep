@@ -6,6 +6,7 @@ import * as dadosEvento from './data';
 
 export default function Home() {
   const [slideAtual] = useState(0);
+  const [atracaoAtual, setAtracaoAtual] = useState(0);
   const linkInscricao =
     'https://docs.google.com/forms/d/e/1FAIpQLScZQrnaJlvOFaUpzqHQV-Cpzy2Qx8oWgximC34FTWWRpDG_hg/viewform?usp=header';
 
@@ -34,6 +35,22 @@ export default function Home() {
   const oficinasLista = dadosEvento?.atracoes || dadosEvento?.atracoesEOficinas || [];
   const patrocinadoresLista = dadosEvento?.patrocinadores || dadosEvento?.parceiros || [];
   const enderecoMapa = encodeURIComponent(`${config.local}, ${config.endereco}`);
+  const atracaoEmDestaque =
+    oficinasLista.length > 0 ? oficinasLista[atracaoAtual % oficinasLista.length] : null;
+
+  const proximaAtracao = () => {
+    setAtracaoAtual((valorAtual) =>
+      oficinasLista.length === 0 ? 0 : (valorAtual + 1) % oficinasLista.length
+    );
+  };
+
+  const atracaoAnterior = () => {
+    setAtracaoAtual((valorAtual) =>
+      oficinasLista.length === 0
+        ? 0
+        : (valorAtual - 1 + oficinasLista.length) % oficinasLista.length
+    );
+  };
 
   return (
     <div className="bg-white text-slate-800 min-h-screen font-sans antialiased">
@@ -175,7 +192,7 @@ export default function Home() {
       {oficinasLista.length > 0 && (
         <section className="py-20 bg-white border-t border-slate-100">
           <div className="max-w-7xl mx-auto px-4 sm:px-6">
-            <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
+            <div className="flex items-end justify-between mb-12 gap-6">
               <div>
                 <span className="text-xs font-bold uppercase tracking-[0.28em] text-[#14532D]">
                   Vivências Práticas
@@ -184,40 +201,65 @@ export default function Home() {
                   Destaques da Edição
                 </h2>
               </div>
-              <a
-                href="/atracoes-e-oficinas"
-                className="text-sm font-bold text-[#0D6EFD] hover:underline inline-block"
-              >
-                Ver todas as atrações
-              </a>
+              <div className="hidden sm:flex items-center gap-3">
+                <button
+                  type="button"
+                  onClick={atracaoAnterior}
+                  className="h-12 w-12 rounded-full border border-slate-200 bg-white text-[#0A2540] text-2xl shadow-sm hover:bg-slate-50 transition"
+                  aria-label="Atração anterior"
+                >
+                  ‹
+                </button>
+                <button
+                  type="button"
+                  onClick={proximaAtracao}
+                  className="h-12 w-12 rounded-full border border-slate-200 bg-white text-[#0A2540] text-2xl shadow-sm hover:bg-slate-50 transition"
+                  aria-label="Próxima atração"
+                >
+                  ›
+                </button>
+              </div>
             </div>
 
-            <div className="space-y-8">
-              {oficinasLista.slice(0, 2).map((oficina: any, index: number) => (
-                <div
-                  key={oficina.id}
-                  className="bg-[#F7F6F4] rounded-[2rem] overflow-hidden border border-slate-200 shadow-sm"
-                >
-                  <div className="grid md:grid-cols-[0.95fr_1.05fr] items-stretch">
-                    <div className={`p-6 md:p-10 flex flex-col justify-center ${index % 2 === 1 ? 'md:order-2' : ''}`}>
-                      <span className="text-xs font-bold uppercase tracking-[0.28em] text-[#14532D]">
-                        Parque
-                      </span>
-                      <h3 className="text-3xl md:text-5xl font-black text-[#0A2540] mt-4 leading-none">
-                        {oficina.titulo}
-                      </h3>
-                      <p className="text-slate-600 text-base md:text-lg mt-4 max-w-xl">
-                        {oficina.descricao}
-                      </p>
+            {atracaoEmDestaque && (
+              <div className="bg-[#F7F6F4] rounded-[2rem] overflow-hidden border border-slate-200 shadow-sm">
+                <div className="grid md:grid-cols-[0.95fr_1.05fr] items-stretch">
+                  <div className="p-6 md:p-10 flex flex-col justify-center order-1">
+                    <span className="text-xs font-bold uppercase tracking-[0.28em] text-[#14532D]">
+                      Parque
+                    </span>
+                    <h3 className="text-3xl md:text-5xl font-black text-[#0A2540] mt-4 leading-none">
+                      {atracaoEmDestaque.titulo}
+                    </h3>
+                    <p className="text-slate-600 text-base md:text-lg mt-4 max-w-xl">
+                      {atracaoEmDestaque.descricao}
+                    </p>
+                    <div className="flex sm:hidden items-center gap-3 mt-8">
+                      <button
+                        type="button"
+                        onClick={atracaoAnterior}
+                        className="h-11 w-11 rounded-full border border-slate-200 bg-white text-[#0A2540] text-2xl shadow-sm hover:bg-slate-50 transition"
+                        aria-label="Atração anterior"
+                      >
+                        ‹
+                      </button>
+                      <button
+                        type="button"
+                        onClick={proximaAtracao}
+                        className="h-11 w-11 rounded-full border border-slate-200 bg-white text-[#0A2540] text-2xl shadow-sm hover:bg-slate-50 transition"
+                        aria-label="Próxima atração"
+                      >
+                        ›
+                      </button>
                     </div>
-                    <div
-                      className={`h-72 md:min-h-[360px] bg-cover bg-center ${index % 2 === 1 ? 'md:order-1' : ''}`}
-                      style={{ backgroundImage: `url(${oficina.imagem || 'https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?auto=format&fit=crop&w=1200'})` }}
-                    ></div>
                   </div>
+                  <div
+                    className="h-72 md:min-h-[360px] bg-cover bg-center order-2"
+                    style={{ backgroundImage: `url(${atracaoEmDestaque.imagem || 'https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?auto=format&fit=crop&w=1200'})` }}
+                  ></div>
                 </div>
-              ))}
-            </div>
+              </div>
+            )}
           </div>
         </section>
       )}
