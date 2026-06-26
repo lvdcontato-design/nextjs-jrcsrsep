@@ -201,7 +201,7 @@ export default function Home() {
                   Destaques da Edição
                 </h2>
               </div>
-              <div className="hidden sm:flex items-center gap-3">
+              <div className="hidden md:flex items-center gap-3">
                 <button
                   type="button"
                   onClick={atracaoAnterior}
@@ -221,10 +221,40 @@ export default function Home() {
               </div>
             </div>
 
+            <div className="md:hidden -mr-4 overflow-x-auto pb-3 snap-x snap-mandatory [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+              <div className="flex gap-4 pr-10">
+                {oficinasLista.map((oficina: any) => (
+                  <div
+                    key={oficina.id}
+                    className="snap-start shrink-0 w-[84%] bg-[#F7F6F4] rounded-[2rem] overflow-hidden border border-slate-200 shadow-sm"
+                  >
+                    <div className="p-6 flex flex-col justify-center">
+                      <span className="text-xs font-bold uppercase tracking-[0.28em] text-[#14532D]">
+                        Parque
+                      </span>
+                      <h3 className="text-3xl font-black text-[#0A2540] mt-4 leading-none">
+                        {oficina.titulo}
+                      </h3>
+                      <p className="text-slate-600 text-base mt-4 min-h-[120px]">
+                        {oficina.descricao}
+                      </p>
+                    </div>
+                    <div
+                      className="h-60 bg-cover bg-center"
+                      style={{ backgroundImage: `url(${oficina.imagem || 'https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?auto=format&fit=crop&w=1200'})` }}
+                    ></div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
             {atracaoEmDestaque && (
-              <div className="bg-[#F7F6F4] rounded-[2rem] overflow-hidden border border-slate-200 shadow-sm">
+              <div
+                key={atracaoAtual}
+                className="hidden md:block bg-[#F7F6F4] rounded-[2rem] overflow-hidden border border-slate-200 shadow-sm [animation:fadeSlideIn_360ms_ease]"
+              >
                 <div className="grid md:grid-cols-[0.95fr_1.05fr] items-stretch">
-                  <div className="p-6 md:p-10 flex flex-col justify-center order-1">
+                  <div className="p-6 md:p-10 flex flex-col justify-center">
                     <span className="text-xs font-bold uppercase tracking-[0.28em] text-[#14532D]">
                       Parque
                     </span>
@@ -234,27 +264,9 @@ export default function Home() {
                     <p className="text-slate-600 text-base md:text-lg mt-4 max-w-xl">
                       {atracaoEmDestaque.descricao}
                     </p>
-                    <div className="flex sm:hidden items-center gap-3 mt-8">
-                      <button
-                        type="button"
-                        onClick={atracaoAnterior}
-                        className="h-11 w-11 rounded-full border border-slate-200 bg-white text-[#0A2540] text-2xl shadow-sm hover:bg-slate-50 transition"
-                        aria-label="Atração anterior"
-                      >
-                        ‹
-                      </button>
-                      <button
-                        type="button"
-                        onClick={proximaAtracao}
-                        className="h-11 w-11 rounded-full border border-slate-200 bg-white text-[#0A2540] text-2xl shadow-sm hover:bg-slate-50 transition"
-                        aria-label="Próxima atração"
-                      >
-                        ›
-                      </button>
-                    </div>
                   </div>
                   <div
-                    className="h-72 md:min-h-[360px] bg-cover bg-center order-2"
+                    className="h-72 md:min-h-[360px] bg-cover bg-center"
                     style={{ backgroundImage: `url(${atracaoEmDestaque.imagem || 'https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?auto=format&fit=crop&w=1200'})` }}
                   ></div>
                 </div>
