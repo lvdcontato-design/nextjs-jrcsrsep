@@ -1,83 +1,87 @@
 'use client';
 
 import React from 'react';
-import * as dadosEvento from '../data';
 
 export default function PatrocinadoresPage() {
-  const config = dadosEvento?.eventoConfig || {
-    titulo: '2º Fórum Estancieiro',
-  };
-  const listaPatrocinadores = dadosEvento?.patrocinadores || [];
-
-  const diamantes = listaPatrocinadores.filter(
-    (p) => p.categoria === 'Diamante'
-  );
-  const apoios = listaPatrocinadores.filter((p) => p.categoria === 'Apoio');
+  const apoios = [
+    'Jardineira - Passeios no Polo',
+    'Sítio Mayumi',
+    'Clube e Park Rincão',
+    'Rincão Resort',
+    'Estância Animal'
+  ];
 
   return (
     <div className="bg-slate-50 min-h-screen py-12 px-4">
-      <div className="max-w-4xl mx-auto text-center">
-        <div className="text-left">
-          <a
-            href="/"
-            className="text-[#0D6EFD] font-bold text-sm hover:underline"
-          >
-            ← Voltar para a Home
-          </a>
-        </div>
-        <h1 className="text-4xl font-extrabold text-[#0A2540] mt-4">
-          Parceiros e Apoiadores
+      <div className="max-w-4xl mx-auto">
+        <a
+          href="/"
+          className="text-[#0D6EFD] font-bold text-sm hover:underline mb-6 inline-block"
+        >
+          ← Voltar para a Home
+        </a>
+        
+        <h1 className="text-4xl font-extrabold text-[#0A2540] mb-4 text-center">
+          Patrocinadores e Parceiros
         </h1>
-        <p className="text-slate-500 mt-2 max-w-xl mx-auto">
-          Empresas e instituições comprometidas com o desenvolvimento da
-          educação ambiental no {config.titulo}
+        <p className="text-slate-500 text-center mb-12">
+          Conheça as marcas e instituições que tornam este evento possível.
         </p>
 
-        {/* Categoria Diamante */}
-        {diamantes.length > 0 && (
-          <div className="mt-12">
-            <h2 className="text-xs font-bold uppercase tracking-widest text-[#0D6EFD] bg-blue-50 px-4 py-1.5 rounded-full inline-block">
-              Patrocínio Diamante
-            </h2>
-            <div className="flex flex-wrap justify-center gap-8 mt-6">
-              {diamantes.map((p) => (
-                <div
-                  key={p.id}
-                  className="bg-white p-6 rounded-2xl border border-slate-200/60 shadow-sm w-44 h-32 flex items-center justify-center hover:scale-105 transition"
-                >
-                  <img
-                    src={p.logo}
-                    alt={p.nome}
-                    className="max-h-20 max-w-full object-contain filter grayscale hover:grayscale-0 transition"
-                  />
-                </div>
-              ))}
-            </div>
+        {/* ÁREA DE PATROCÍNIOS (Apenas Texto por enquanto) */}
+        <div className="space-y-10 mb-16 text-center">
+          <div className="bg-white border border-slate-200/60 p-6 rounded-xl shadow-sm">
+            <h2 className="text-2xl font-bold text-slate-700">Patrocínio Diamante</h2>
+            <p className="text-slate-400 mt-2 text-sm italic">Espaço reservado</p>
           </div>
-        )}
+          
+          <div className="bg-white border border-slate-200/60 p-6 rounded-xl shadow-sm">
+            <h2 className="text-xl font-bold text-slate-700">Patrocínio Ouro</h2>
+            <p className="text-slate-400 mt-2 text-sm italic">Espaço reservado</p>
+          </div>
 
-        {/* Categoria Apoio */}
-        {apoios.length > 0 && (
-          <div className="mt-16">
-            <h2 className="text-xs font-bold uppercase tracking-widest text-slate-400 bg-slate-100 px-4 py-1.5 rounded-full inline-block">
-              Apoio Institucional
-            </h2>
-            <div className="flex flex-wrap justify-center gap-8 mt-6">
-              {apoios.map((p) => (
-                <div
-                  key={p.id}
-                  className="bg-white p-4 rounded-xl border border-slate-200/60 shadow-xs w-36 h-24 flex items-center justify-center hover:scale-105 transition"
-                >
-                  <img
-                    src={p.logo}
-                    alt={p.nome}
-                    className="max-h-14 max-w-full object-contain filter grayscale hover:grayscale-0 transition"
-                  />
-                </div>
-              ))}
-            </div>
+          <div className="bg-white border border-slate-200/60 p-6 rounded-xl shadow-sm">
+            <h2 className="text-lg font-bold text-slate-700">Patrocínio Prata</h2>
+            <p className="text-slate-400 mt-2 text-sm italic">Espaço reservado</p>
           </div>
-        )}
+
+          <div className="bg-white border border-slate-200/60 p-6 rounded-xl shadow-sm">
+            <h2 className="text-base font-bold text-slate-700">Patrocínio Bronze</h2>
+            <p className="text-slate-400 mt-2 text-sm italic">Espaço reservado</p>
+          </div>
+        </div>
+
+        {/* ÁREA DE APOIO */}
+        <div className="mb-16">
+          <h2 className="text-2xl font-bold text-[#0A2540] mb-6 text-center border-b border-slate-200 pb-4">
+            Apoio
+          </h2>
+          <div className="flex flex-wrap justify-center gap-3">
+            {apoios.map((nome, index) => (
+              <span 
+                key={index} 
+                className="bg-white border border-slate-200 px-5 py-2.5 rounded-full text-sm text-[#0A2540] font-semibold shadow-sm"
+              >
+                {nome}
+              </span>
+            ))}
+          </div>
+        </div>
+
+        {/* ÁREA DO ORGANIZADOR (Com logo e fundo azul claro) */}
+        <div className="text-center mt-20">
+          <h2 className="text-2xl font-bold text-[#0A2540] mb-6 border-b border-slate-200 pb-4">
+            Realização e Organização
+          </h2>
+          <div className="inline-block bg-blue-100 p-8 rounded-2xl shadow-sm border border-blue-200 hover:shadow-md transition-shadow">
+            <img 
+              src="/logo_grupo_jogo.png" 
+              alt="Logo Grupo Jogo" 
+              className="max-h-32 w-auto object-contain mx-auto"
+            />
+          </div>
+        </div>
+
       </div>
     </div>
   );
