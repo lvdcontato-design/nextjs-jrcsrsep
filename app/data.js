@@ -59,3 +59,14 @@ export const atracoes = [
   { id: 3, titulo: 'Manejo Agroecológico', descricao: 'Técnicas orgânicas.', imagem: 'https://images.unsplash.com/photo-1523348837708-15d4a09cfacb?q=80&w=800' }
 ];
 export const atracoesEOficinas = atracoes;
+
+// --- A PARTE QUE FALTAVA ---
+export const patrocinadores = [
+  { id: 1, nome: 'EcoEnergia Brasil', logotipo: 'https://images.unsplash.com/photo-1516841273335-e39b37888115?q=80&w=150', tipo: 'Master' },
+  { id: 2, nome: 'Verde Vida Embalagens', logotipo: 'https://images.unsplash.com/photo-1607344645866-009c320c5ab8?q=80&w=150', tipo: 'Gold' }
+];
+
+export const parceiros = [
+  { id: 1, nome: 'Secretaria do Meio Ambiente', logotipo: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=150' },
+  { id: 2, nome: 'Instituto Bioma Global', logotipo: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=150' }
+];
