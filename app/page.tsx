@@ -1,12 +1,66 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useRef, useState, type PointerEvent } from 'react';
 import { programacaoManha, programacaoTarde } from './data';
 import * as dadosEvento from './data';
+
+function resolveNearestIndex(element: HTMLDivElement | null) {
+  if (!element) {
+    return 0;
+  }
+
+  const center = element.scrollLeft + element.clientWidth / 2;
+  const children = Array.from(element.children) as HTMLElement[];
+  let bestIndex = 0;
+  let bestDistance = Number.POSITIVE_INFINITY;
+
+  children.forEach((child, index) => {
+    const childCenter = child.offsetLeft + child.clientWidth / 2;
+    const distance = Math.abs(childCenter - center);
+
+    if (distance < bestDistance) {
+      bestDistance = distance;
+      bestIndex = index;
+    }
+  });
+
+  return bestIndex;
+}
+
+function scrollCarouselToIndex(element: HTMLDivElement | null, index: number) {
+  if (!element) {
+    return;
+  }
+
+  const child = element.children.item(index) as HTMLElement | null;
+
+  if (!child) {
+    return;
+  }
+
+  child.scrollIntoView({
+    behavior: 'smooth',
+    inline: 'center',
+    block: 'nearest',
+  });
+}
+
+function shouldIgnoreCarouselPointer(target: EventTarget | null) {
+  return (
+    target instanceof HTMLElement &&
+    Boolean(target.closest('a, button, input, textarea, select, label'))
+  );
+}
 
 export default function Home() {
   const [slideAtual] = useState(0);
   const [atracaoAtual, setAtracaoAtual] = useState(0);
+  const atracoesRef = useRef<HTMLDivElement>(null);
+  const carouselDragRef = useRef<{
+    element: HTMLDivElement;
+    x: number;
+    scrollLeft: number;
+  } | null>(null);
   const linkInscricao =
     'https://docs.google.com/forms/d/e/1FAIpQLScZQrnaJlvOFaUpzqHQV-Cpzy2Qx8oWgximC34FTWWRpDG_hg/viewform?usp=header';
 
@@ -35,21 +89,44 @@ export default function Home() {
   const oficinasLista = dadosEvento?.atracoes || dadosEvento?.atracoesEOficinas || [];
   const patrocinadoresLista = dadosEvento?.patrocinadores || dadosEvento?.parceiros || [];
   const enderecoMapa = encodeURIComponent(`${config.local}, ${config.endereco}`);
-  const atracaoEmDestaque =
-    oficinasLista.length > 0 ? oficinasLista[atracaoAtual % oficinasLista.length] : null;
-
   const proximaAtracao = () => {
-    setAtracaoAtual((valorAtual) =>
-      oficinasLista.length === 0 ? 0 : (valorAtual + 1) % oficinasLista.length
-    );
+    const proximoIndice = Math.min(atracaoAtual + 1, oficinasLista.length - 1);
+    setAtracaoAtual(proximoIndice);
+    scrollCarouselToIndex(atracoesRef.current, proximoIndice);
   };
 
   const atracaoAnterior = () => {
-    setAtracaoAtual((valorAtual) =>
-      oficinasLista.length === 0
-        ? 0
-        : (valorAtual - 1 + oficinasLista.length) % oficinasLista.length
-    );
+    const proximoIndice = Math.max(atracaoAtual - 1, 0);
+    setAtracaoAtual(proximoIndice);
+    scrollCarouselToIndex(atracoesRef.current, proximoIndice);
+  };
+
+  const handleCarouselPointerDown = (event: PointerEvent<HTMLDivElement>) => {
+    if (shouldIgnoreCarouselPointer(event.target)) {
+      carouselDragRef.current = null;
+      return;
+    }
+
+    carouselDragRef.current = {
+      element: event.currentTarget,
+      x: event.clientX,
+      scrollLeft: event.currentTarget.scrollLeft,
+    };
+    event.currentTarget.setPointerCapture(event.pointerId);
+  };
+
+  const handleCarouselPointerMove = (event: PointerEvent<HTMLDivElement>) => {
+    const drag = carouselDragRef.current;
+
+    if (!drag || drag.element !== event.currentTarget) {
+      return;
+    }
+
+    event.currentTarget.scrollLeft = drag.scrollLeft - (event.clientX - drag.x);
+  };
+
+  const handleCarouselPointerEnd = () => {
+    carouselDragRef.current = null;
   };
 
   return (
@@ -202,76 +279,72 @@ export default function Home() {
                 </h2>
               </div>
               <div className="hidden md:flex items-center gap-3">
-                <button
-                  type="button"
-                  onClick={atracaoAnterior}
-                  className="h-12 w-12 rounded-full border border-slate-200 bg-white text-[#0A2540] text-2xl shadow-sm hover:bg-slate-50 transition"
-                  aria-label="Atração anterior"
-                >
-                  ‹
-                </button>
-                <button
-                  type="button"
-                  onClick={proximaAtracao}
-                  className="h-12 w-12 rounded-full border border-slate-200 bg-white text-[#0A2540] text-2xl shadow-sm hover:bg-slate-50 transition"
-                  aria-label="Próxima atração"
-                >
-                  ›
-                </button>
+                {atracaoAtual > 0 && (
+                  <button
+                    type="button"
+                    onClick={atracaoAnterior}
+                    className="h-12 w-12 rounded-full border border-slate-200 bg-white text-[#0A2540] text-2xl shadow-sm hover:bg-slate-50 transition"
+                    aria-label="Atração anterior"
+                  >
+                    ‹
+                  </button>
+                )}
+                {atracaoAtual < oficinasLista.length - 1 && (
+                  <button
+                    type="button"
+                    onClick={proximaAtracao}
+                    className="h-12 w-12 rounded-full border border-slate-200 bg-white text-[#0A2540] text-2xl shadow-sm hover:bg-slate-50 transition"
+                    aria-label="Próxima atração"
+                  >
+                    ›
+                  </button>
+                )}
               </div>
             </div>
 
-            <div className="md:hidden -mr-4 overflow-x-auto pb-3 snap-x snap-mandatory [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-              <div className="flex gap-4 pr-10">
+            <div className="relative">
+              <div
+                ref={atracoesRef}
+                onPointerDown={handleCarouselPointerDown}
+                onPointerMove={handleCarouselPointerMove}
+                onPointerUp={handleCarouselPointerEnd}
+                onPointerCancel={handleCarouselPointerEnd}
+                onScroll={(event) =>
+                  setAtracaoAtual(resolveNearestIndex(event.currentTarget))
+                }
+                className="-mx-4 flex cursor-grab select-none snap-x snap-mandatory gap-4 overflow-x-auto px-4 pb-5 [scrollbar-width:none] active:cursor-grabbing md:mx-0 md:gap-5 md:px-0 [&::-webkit-scrollbar]:hidden"
+              >
                 {oficinasLista.map((oficina: any) => (
-                  <div
+                  <article
                     key={oficina.id}
-                    className="snap-start shrink-0 w-[84%] bg-[#F7F6F4] rounded-[2rem] overflow-hidden border border-slate-200 shadow-sm"
+                    className="min-w-[84vw] snap-center overflow-hidden rounded-[2rem] border border-slate-200 bg-[#F7F6F4] shadow-sm md:min-w-[920px] md:rounded-[2rem] md:grid md:grid-cols-[0.98fr_1fr] lg:min-w-[1120px]"
                   >
-                    <div className="p-6 flex flex-col justify-center">
+                    <div className="flex flex-col justify-center px-6 py-8 text-left md:px-10">
                       <span className="text-xs font-bold uppercase tracking-[0.28em] text-[#14532D]">
                         Parque
                       </span>
-                      <h3 className="text-3xl font-black text-[#0A2540] mt-4 leading-none">
+                      <h3 className="mt-4 text-3xl font-black leading-none text-[#0A2540] md:text-[3.3rem]">
                         {oficina.titulo}
                       </h3>
-                      <p className="text-slate-600 text-base mt-4 min-h-[120px]">
+                      <p className="mt-5 max-w-[560px] text-base leading-8 text-slate-600 md:text-lg">
                         {oficina.descricao}
                       </p>
                     </div>
-                    <div
-                      className="h-60 bg-cover bg-center"
-                      style={{ backgroundImage: `url(${oficina.imagem || 'https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?auto=format&fit=crop&w=1200'})` }}
-                    ></div>
-                  </div>
+                    <div className="bg-[#dfe8d8]">
+                      <img
+                        src={
+                          oficina.imagem ||
+                          'https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?auto=format&fit=crop&w=1200'
+                        }
+                        alt={oficina.titulo}
+                        className="block h-[260px] w-full object-cover md:h-[360px]"
+                        draggable={false}
+                      />
+                    </div>
+                  </article>
                 ))}
               </div>
             </div>
-
-            {atracaoEmDestaque && (
-              <div
-                key={atracaoAtual}
-                className="hidden md:block bg-[#F7F6F4] rounded-[2rem] overflow-hidden border border-slate-200 shadow-sm [animation:fadeSlideIn_360ms_ease]"
-              >
-                <div className="grid md:grid-cols-[0.95fr_1.05fr] items-stretch">
-                  <div className="p-6 md:p-10 flex flex-col justify-center">
-                    <span className="text-xs font-bold uppercase tracking-[0.28em] text-[#14532D]">
-                      Parque
-                    </span>
-                    <h3 className="text-3xl md:text-5xl font-black text-[#0A2540] mt-4 leading-none">
-                      {atracaoEmDestaque.titulo}
-                    </h3>
-                    <p className="text-slate-600 text-base md:text-lg mt-4 max-w-xl">
-                      {atracaoEmDestaque.descricao}
-                    </p>
-                  </div>
-                  <div
-                    className="h-72 md:min-h-[360px] bg-cover bg-center"
-                    style={{ backgroundImage: `url(${atracaoEmDestaque.imagem || 'https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?auto=format&fit=crop&w=1200'})` }}
-                  ></div>
-                </div>
-              </div>
-            )}
           </div>
         </section>
       )}
