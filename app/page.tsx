@@ -5,9 +5,8 @@ import { programacaoManha, programacaoTarde } from './data';
 import * as dadosEvento from './data';
 
 export default function Home() {
-  const [slideAtual, setSlideAtual] = useState(0);
+  const [slideAtual] = useState(0);
 
-  // Garantia de dados caso a importação falhe temporariamente
   const config = dadosEvento?.eventoConfig || {
     titulo: '2º Estancieiro Fórum de Educação e Meio Ambiente',
     slogan: 'Experiências que Transformam',
@@ -30,21 +29,12 @@ export default function Home() {
     },
   ];
 
-  const palestrantesLista = dadosEvento?.palestrantes || [];
   const oficinasLista = dadosEvento?.atracoes || dadosEvento?.atracoesEOficinas || [];
   const patrocinadoresLista = dadosEvento?.patrocinadores || dadosEvento?.parceiros || [];
-
-  const proximoSlide = () => {
-    setSlideAtual((prev) => (prev === slides.length - 1 ? 0 : prev + 1));
-  };
-
-  const slideAnterior = () => {
-    setSlideAtual((prev) => (prev === 0 ? slides.length - 1 : prev - 1));
-  };
+  const enderecoMapa = encodeURIComponent(`${config.local}, ${config.endereco}`);
 
   return (
     <div className="bg-white text-slate-800 min-h-screen font-sans antialiased">
-      {/* CABEÇALHO COM MENU */}
       <header className="sticky top-0 z-50 bg-white/95 backdrop-blur border-b border-slate-100 shadow-xs">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 h-20 flex items-center justify-between">
           <a
@@ -55,7 +45,6 @@ export default function Home() {
           </a>
 
           <nav className="hidden md:flex items-center space-x-6 text-sm font-semibold text-slate-600">
-            {/* O link agora aponta para a âncora na mesma página */}
             <a href="/#programacao" className="hover:text-[#0D6EFD] transition">
               Programação
             </a>
@@ -81,11 +70,10 @@ export default function Home() {
         </div>
       </header>
 
-      {/* CARROSSEL PRINCIPAL */}
       <section className="relative bg-[#0A2540] text-white overflow-hidden min-h-[520px] flex items-center">
         {slides[slideAtual] && (
           <div
-            className="absolute inset-0 bg-cover bg-center opacity-30 transition-all duration-700 ease-in-out"
+            className="absolute inset-0 bg-cover bg-center opacity-30"
             style={{ backgroundImage: `url('${slides[slideAtual].imagem}')` }}
           ></div>
         )}
@@ -116,7 +104,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* INTRODUÇÃO & HISTÓRICO */}
       <section className="py-20 max-w-4xl mx-auto px-4 text-center">
         <span className="text-xs font-bold uppercase tracking-widest text-[#0D6EFD]">
           Apresentação
@@ -130,7 +117,6 @@ export default function Home() {
         </p>
       </section>
 
-      {/* SEÇÃO DE PROGRAMAÇÃO COM ÂNCORA (Movida para o lugar certo) */}
       <section id="programacao" className="py-20 bg-slate-50 border-t border-slate-200 scroll-mt-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <div className="text-center mb-12">
@@ -139,11 +125,10 @@ export default function Home() {
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
-            {/* Coluna Manhã */}
             <div className="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
               <div className="bg-[#0D6EFD] px-6 py-4">
-                <h3 className="text-lg font-bold text-white flex items-center gap-2">
-                  ☀️ Período da Manhã <span className="text-blue-200 text-sm font-normal">(08h20 às 11h45)</span>
+                <h3 className="text-lg font-bold text-white">
+                  Período da Manhã <span className="text-blue-200 text-sm font-normal">(08h20 às 11h45)</span>
                 </h3>
               </div>
               <div className="p-6 space-y-6">
@@ -161,11 +146,10 @@ export default function Home() {
               </div>
             </div>
 
-            {/* Coluna Tarde */}
             <div className="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
               <div className="bg-[#14532D] px-6 py-4">
-                <h3 className="text-lg font-bold text-white flex items-center gap-2">
-                  🌤️ Período da Tarde <span className="text-emerald-200 text-sm font-normal">(13h às 18h)</span>
+                <h3 className="text-lg font-bold text-white">
+                  Período da Tarde <span className="text-emerald-200 text-sm font-normal">(13h às 18h)</span>
                 </h3>
               </div>
               <div className="p-6 space-y-6">
@@ -186,7 +170,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* PREVIEW DE ATRAÇÕES */}
       {oficinasLista.length > 0 && (
         <section className="py-20 bg-white border-t border-slate-100">
           <div className="max-w-7xl mx-auto px-4 sm:px-6">
@@ -203,7 +186,7 @@ export default function Home() {
                 href="/atracoes-e-oficinas"
                 className="text-sm font-bold text-[#0D6EFD] hover:underline mt-4 md:mt-0 inline-block"
               >
-                Ver todas as atrações →
+                Ver todas as atrações
               </a>
             </div>
 
@@ -234,7 +217,6 @@ export default function Home() {
         </section>
       )}
 
-      {/* PATROCINADORES */}
       {patrocinadoresLista.length > 0 && (
         <section className="py-16 bg-slate-50 text-center border-t border-slate-200">
           <div className="max-w-5xl mx-auto px-4">
@@ -258,7 +240,48 @@ export default function Home() {
         </section>
       )}
 
-      {/* RODAPÉ */}
+      <section className="py-20 bg-white border-t border-slate-200">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 grid lg:grid-cols-[1fr_1.2fr] gap-10 items-start">
+          <div>
+            <span className="text-xs font-bold uppercase tracking-widest text-[#0D6EFD]">
+              Como chegar
+            </span>
+            <h3 className="text-3xl font-extrabold text-[#0A2540] mt-2">
+              Endereço do evento
+            </h3>
+            <div className="w-12 h-1 bg-[#0D6EFD] mt-4 rounded-full"></div>
+            <div className="mt-6 space-y-4 text-slate-600">
+              <div className="bg-slate-50 border border-slate-200 rounded-2xl p-5">
+                <p className="text-sm font-bold text-[#0A2540]">Local</p>
+                <p className="mt-1">{config.local}</p>
+              </div>
+              <div className="bg-slate-50 border border-slate-200 rounded-2xl p-5">
+                <p className="text-sm font-bold text-[#0A2540]">Endereço</p>
+                <p className="mt-1">{config.endereco}</p>
+              </div>
+              <a
+                href={`https://www.google.com/maps/search/?api=1&query=${enderecoMapa}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center bg-[#0D6EFD] hover:bg-blue-600 text-white px-6 py-3 rounded-xl font-bold transition shadow-lg shadow-blue-600/20"
+              >
+                Abrir no Google Maps
+              </a>
+            </div>
+          </div>
+
+          <div className="rounded-3xl overflow-hidden border border-slate-200 shadow-sm bg-slate-50 min-h-[360px]">
+            <iframe
+              title="Mapa do local do evento"
+              src={`https://www.google.com/maps?q=${enderecoMapa}&z=15&output=embed`}
+              className="w-full h-[360px] md:h-[420px] border-0"
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+            />
+          </div>
+        </div>
+      </section>
+
       <footer className="bg-[#0A2540] text-slate-300 py-12 border-t border-slate-900 text-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 grid md:grid-cols-2 gap-8 items-center">
           <div>
