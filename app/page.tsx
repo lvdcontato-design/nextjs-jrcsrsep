@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
-// Importação flexível sem a extensão explícita
+import { programacaoManha, programacaoTarde } from './data';
 import * as dadosEvento from './data';
 
 export default function Home() {
@@ -9,7 +9,7 @@ export default function Home() {
 
   // Garantia de dados caso a importação falhe temporariamente
   const config = dadosEvento?.eventoConfig || {
-    titulo: '2º Fórum Estancieiro',
+    titulo: '2º Estancieiro Fórum de Educação e Meio Ambiente',
     slogan: 'Experiências que Transformam',
     data: '24/07/2026',
     horario: '09h as 18h',
@@ -23,19 +23,16 @@ export default function Home() {
   const slides = [
     {
       id: 1,
-      titulo: '2º Fórum Estancieiro',
+      titulo: '2º Estancieiro Fórum de Educação e Meio Ambiente',
       subtitulo: 'Experiências que Transformam',
       imagem:
         'https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?auto=format&fit=crop&w=1200&q=80',
     },
   ];
 
-  // Ajustado para buscar as chaves corretas e seguras exportadas do arquivo data
   const palestrantesLista = dadosEvento?.palestrantes || [];
-  const oficinasLista =
-    dadosEvento?.atracoes || dadosEvento?.atracoesEOficinas || [];
-  const patrocinadoresLista =
-    dadosEvento?.patrocinadores || dadosEvento?.parceiros || [];
+  const oficinasLista = dadosEvento?.atracoes || dadosEvento?.atracoesEOficinas || [];
+  const patrocinadoresLista = dadosEvento?.patrocinadores || dadosEvento?.parceiros || [];
 
   const proximoSlide = () => {
     setSlideAtual((prev) => (prev === slides.length - 1 ? 0 : prev + 1));
@@ -47,7 +44,7 @@ export default function Home() {
 
   return (
     <div className="bg-white text-slate-800 min-h-screen font-sans antialiased">
-      {/* CABEÇALHO */}
+      {/* CABEÇALHO COM MENU */}
       <header className="sticky top-0 z-50 bg-white/95 backdrop-blur border-b border-slate-100 shadow-xs">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 h-20 flex items-center justify-between">
           <a
@@ -58,22 +55,17 @@ export default function Home() {
           </a>
 
           <nav className="hidden md:flex items-center space-x-6 text-sm font-semibold text-slate-600">
-            <a href="/programacao" className="hover:text-[#0D6EFD] transition">
+            {/* O link agora aponta para a âncora na mesma página */}
+            <a href="/#programacao" className="hover:text-[#0D6EFD] transition">
               Programação
             </a>
             <a href="/palestrantes" className="hover:text-[#0D6EFD] transition">
               Palestrantes
             </a>
-            <a
-              href="/atracoes-e-oficinas"
-              className="hover:text-[#0D6EFD] transition"
-            >
+            <a href="/atracoes-e-oficinas" className="hover:text-[#0D6EFD] transition">
               Atrações & Oficinas
             </a>
-            <a
-              href="/patrocinadores"
-              className="hover:text-[#0D6EFD] transition"
-            >
+            <a href="/patrocinadores" className="hover:text-[#0D6EFD] transition">
               Patrocinadores
             </a>
           </nav>
@@ -89,7 +81,7 @@ export default function Home() {
         </div>
       </header>
 
-      {/* CARROSSEL PRINCIPAL COM VERIFICAÇÃO */}
+      {/* CARROSSEL PRINCIPAL */}
       <section className="relative bg-[#0A2540] text-white overflow-hidden min-h-[520px] flex items-center">
         {slides[slideAtual] && (
           <div
@@ -119,22 +111,6 @@ export default function Home() {
               >
                 Garantir Ingresso
               </a>
-              {slides.length > 1 && (
-                <div className="flex space-x-2">
-                  <button
-                    onClick={slideAnterior}
-                    className="bg-white/10 hover:bg-white/20 text-white p-2.5 rounded-lg border border-white/10 transition text-sm"
-                  >
-                    ◀
-                  </button>
-                  <button
-                    onClick={proximoSlide}
-                    className="bg-white/10 hover:bg-white/20 text-white p-2.5 rounded-lg border border-white/10 transition text-sm"
-                  >
-                    ▶
-                  </button>
-                </div>
-              )}
             </div>
           </div>
         </div>
@@ -145,29 +121,74 @@ export default function Home() {
         <span className="text-xs font-bold uppercase tracking-widest text-[#0D6EFD]">
           Apresentação
         </span>
-        <h2 className="text-3xl Im font-extrabold text-[#0A2540] mt-2">
+        <h2 className="text-3xl font-extrabold text-[#0A2540] mt-2">
           Sobre o Fórum
         </h2>
         <div className="w-12 h-1 bg-[#0D6EFD] mx-auto mt-4 rounded-full"></div>
         <p className="mt-6 text-slate-600 text-base md:text-lg leading-relaxed text-justify md:text-center">
           {config.sobre}
         </p>
+      </section>
 
-        {config.historico && (
-          <div className="mt-12 p-6 md:p-8 bg-blue-50/60 rounded-2xl border border-blue-100 text-left">
-            <h3 className="text-lg font-bold text-[#0A2540] flex items-center gap-2">
-              🌱 Nossa Trajetória
-            </h3>
-            <p className="mt-3 text-slate-600 text-sm md:text-base leading-relaxed">
-              {config.historico}
-            </p>
+      {/* SEÇÃO DE PROGRAMAÇÃO COM ÂNCORA (Movida para o lugar certo) */}
+      <section id="programacao" className="py-20 bg-slate-50 border-t border-slate-200 scroll-mt-20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-black text-[#0A2540] tracking-tight">Programação</h2>
+            <p className="mt-3 text-base text-slate-600 font-medium">Confira o line up do evento</p>
           </div>
-        )}
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
+            {/* Coluna Manhã */}
+            <div className="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+              <div className="bg-[#0D6EFD] px-6 py-4">
+                <h3 className="text-lg font-bold text-white flex items-center gap-2">
+                  ☀️ Período da Manhã <span className="text-blue-200 text-sm font-normal">(08h20 às 11h45)</span>
+                </h3>
+              </div>
+              <div className="p-6 space-y-6">
+                {programacaoManha?.map((item, index) => (
+                  <div key={index} className="flex gap-4 items-start">
+                    <div className="text-2xl pt-1">{item.icone}</div>
+                    <div>
+                      <span className="inline-block px-2.5 py-1 bg-slate-100 text-slate-700 text-xs font-bold rounded-md mb-1 border border-slate-200">
+                        {item.horario}
+                      </span>
+                      <p className="text-sm font-semibold text-slate-900 leading-snug">{item.atividade}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Coluna Tarde */}
+            <div className="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+              <div className="bg-[#14532D] px-6 py-4">
+                <h3 className="text-lg font-bold text-white flex items-center gap-2">
+                  🌤️ Período da Tarde <span className="text-emerald-200 text-sm font-normal">(13h às 18h)</span>
+                </h3>
+              </div>
+              <div className="p-6 space-y-6">
+                {programacaoTarde?.map((item, index) => (
+                  <div key={index} className="flex gap-4 items-start">
+                    <div className="text-2xl pt-1">{item.icone}</div>
+                    <div>
+                      <span className="inline-block px-2.5 py-1 bg-slate-100 text-slate-700 text-xs font-bold rounded-md mb-1 border border-slate-200">
+                        {item.horario}
+                      </span>
+                      <p className="text-sm font-semibold text-slate-900 leading-snug">{item.atividade}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
       </section>
 
       {/* PREVIEW DE ATRAÇÕES */}
       {oficinasLista.length > 0 && (
-        <section className="py-20 bg-slate-50 border-y border-slate-100">
+        <section className="py-20 bg-white border-t border-slate-100">
           <div className="max-w-7xl mx-auto px-4 sm:px-6">
             <div className="flex flex-col md:flex-row md:items-end justify-between mb-12">
               <div>
@@ -190,11 +211,11 @@ export default function Home() {
               {oficinasLista.slice(0, 2).map((oficina: any) => (
                 <div
                   key={oficina.id}
-                  className="bg-white rounded-2xl overflow-hidden border border-slate-200/60 shadow-xs flex flex-col md:flex-row h-full"
+                  className="bg-white rounded-2xl overflow-hidden border border-slate-200 shadow-sm flex flex-col md:flex-row h-full"
                 >
                   <div
                     className="md:w-48 h-48 md:h-full bg-cover bg-center shrink-0"
-                    style={{ backgroundImage: `url(${oficina.imagem})` }}
+                    style={{ backgroundImage: `url(${oficina.imagem || 'https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?auto=format&fit=crop&w=400'})` }}
                   ></div>
                   <div className="p-6 flex flex-col justify-between">
                     <div>
@@ -205,9 +226,6 @@ export default function Home() {
                         {oficina.descricao}
                       </p>
                     </div>
-                    <span className="text-[11px] font-bold bg-slate-100 text-slate-600 px-2.5 py-1 rounded-md inline-block mt-4 self-start">
-                      {oficina.vagas}
-                    </span>
                   </div>
                 </div>
               ))}
@@ -218,22 +236,24 @@ export default function Home() {
 
       {/* PATROCINADORES */}
       {patrocinadoresLista.length > 0 && (
-        <section className="py-16 text-center max-w-5xl 'mx-auto' px-4">
-          <span className="text-xs font-bold uppercase tracking-widest text-slate-400">
-            Parceiros Estratégicos
-          </span>
-          <h3 className="text-xl font-bold text-[#0A2540] mt-1">
-            Apoio e Realização
-          </h3>
-          <div className="flex flex-wrap justify-center items-center gap-8 md:gap-12 mt-10 opacity-70">
-            {patrocinadoresLista.map((p: any) => (
-              <img
-                key={p.id}
-                src={p.logo}
-                alt={p.nome || 'Patrocinador'}
-                className="h-12 md:h-14 object-contain max-w-[140px]"
-              />
-            ))}
+        <section className="py-16 bg-slate-50 text-center border-t border-slate-200">
+          <div className="max-w-5xl mx-auto px-4">
+            <span className="text-xs font-bold uppercase tracking-widest text-slate-400">
+              Parceiros Estratégicos
+            </span>
+            <h3 className="text-xl font-bold text-[#0A2540] mt-1">
+              Apoio e Realização
+            </h3>
+            <div className="flex flex-wrap justify-center items-center gap-8 md:gap-12 mt-10 opacity-70">
+              {patrocinadoresLista.map((p: any) => (
+                <img
+                  key={p.id}
+                  src={p.logo || p.logotipo}
+                  alt={p.nome || 'Patrocinador'}
+                  className="h-12 md:h-14 object-contain max-w-[140px]"
+                />
+              ))}
+            </div>
           </div>
         </section>
       )}
