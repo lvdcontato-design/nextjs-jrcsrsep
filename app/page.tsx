@@ -6,6 +6,8 @@ import * as dadosEvento from './data';
 
 export default function Home() {
   const [slideAtual] = useState(0);
+  const linkInscricao =
+    'https://docs.google.com/forms/d/e/1FAIpQLScZQrnaJlvOFaUpzqHQV-Cpzy2Qx8oWgximC34FTWWRpDG_hg/viewform?usp=header';
 
   const config = dadosEvento?.eventoConfig || {
     titulo: '2º Estancieiro Fórum de Educação e Meio Ambiente',
@@ -14,7 +16,7 @@ export default function Home() {
     horario: '09h as 18h',
     local: 'Estância e Parque Ecológico das Águas',
     endereco: 'Polo de Ecoturismo de São Paulo, São Paulo - SP',
-    linkInscricao: '#',
+    linkInscricao,
     sobre: '',
     historico: '',
   };
@@ -41,7 +43,7 @@ export default function Home() {
             href="/"
             className="text-lg font-black text-[#0D6EFD] tracking-tight hover:opacity-90 transition"
           >
-            {config.titulo.toUpperCase()}
+            2° Estancieiro
           </a>
 
           <nav className="hidden md:flex items-center space-x-6 text-sm font-semibold text-slate-600">
@@ -60,7 +62,7 @@ export default function Home() {
           </nav>
 
           <a
-            href={config.linkInscricao}
+            href={linkInscricao}
             target="_blank"
             rel="noopener noreferrer"
             className="bg-[#14532D] text-white px-5 py-2.5 rounded-full font-bold text-sm hover:bg-emerald-800 transition shadow-md"
@@ -92,7 +94,7 @@ export default function Home() {
             </p>
             <div className="mt-8 flex items-center space-x-4">
               <a
-                href={config.linkInscricao}
+                href={linkInscricao}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="bg-[#0D6EFD] hover:bg-blue-600 text-white px-6 py-3 rounded-xl font-bold transition shadow-lg shadow-blue-600/20"
@@ -173,42 +175,45 @@ export default function Home() {
       {oficinasLista.length > 0 && (
         <section className="py-20 bg-white border-t border-slate-100">
           <div className="max-w-7xl mx-auto px-4 sm:px-6">
-            <div className="flex flex-col md:flex-row md:items-end justify-between mb-12">
+            <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
               <div>
-                <span className="text-xs font-bold uppercase tracking-widest text-[#14532D]">
+                <span className="text-xs font-bold uppercase tracking-[0.28em] text-[#14532D]">
                   Vivências Práticas
                 </span>
-                <h2 className="text-3xl font-extrabold text-[#0A2540] mt-1">
+                <h2 className="text-3xl md:text-4xl font-extrabold text-[#0A2540] mt-3">
                   Destaques da Edição
                 </h2>
               </div>
               <a
                 href="/atracoes-e-oficinas"
-                className="text-sm font-bold text-[#0D6EFD] hover:underline mt-4 md:mt-0 inline-block"
+                className="text-sm font-bold text-[#0D6EFD] hover:underline inline-block"
               >
                 Ver todas as atrações
               </a>
             </div>
 
-            <div className="grid sm:grid-cols-2 gap-8">
-              {oficinasLista.slice(0, 2).map((oficina: any) => (
+            <div className="space-y-8">
+              {oficinasLista.slice(0, 2).map((oficina: any, index: number) => (
                 <div
                   key={oficina.id}
-                  className="bg-white rounded-2xl overflow-hidden border border-slate-200 shadow-sm flex flex-col md:flex-row h-full"
+                  className="bg-[#F7F6F4] rounded-[2rem] overflow-hidden border border-slate-200 shadow-sm"
                 >
-                  <div
-                    className="md:w-48 h-48 md:h-full bg-cover bg-center shrink-0"
-                    style={{ backgroundImage: `url(${oficina.imagem || 'https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?auto=format&fit=crop&w=400'})` }}
-                  ></div>
-                  <div className="p-6 flex flex-col justify-between">
-                    <div>
-                      <h3 className="text-lg font-bold text-[#0A2540]">
+                  <div className="grid md:grid-cols-[0.95fr_1.05fr] items-stretch">
+                    <div className={`p-6 md:p-10 flex flex-col justify-center ${index % 2 === 1 ? 'md:order-2' : ''}`}>
+                      <span className="text-xs font-bold uppercase tracking-[0.28em] text-[#14532D]">
+                        Parque
+                      </span>
+                      <h3 className="text-3xl md:text-5xl font-black text-[#0A2540] mt-4 leading-none">
                         {oficina.titulo}
                       </h3>
-                      <p className="text-slate-500 text-xs mt-2 line-clamp-3">
+                      <p className="text-slate-600 text-base md:text-lg mt-4 max-w-xl">
                         {oficina.descricao}
                       </p>
                     </div>
+                    <div
+                      className={`h-72 md:min-h-[360px] bg-cover bg-center ${index % 2 === 1 ? 'md:order-1' : ''}`}
+                      style={{ backgroundImage: `url(${oficina.imagem || 'https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?auto=format&fit=crop&w=1200'})` }}
+                    ></div>
                   </div>
                 </div>
               ))}
