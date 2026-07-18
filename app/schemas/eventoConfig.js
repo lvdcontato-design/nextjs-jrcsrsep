@@ -25,7 +25,7 @@ export default {
       name: 'local',
       title: 'Local do Evento',
       type: 'string',
-      placeholder: 'Ex: Polo de Ecoturismo de São Paulo',
+      placeholder: 'Ex: Estrada do Caibro, 1494 - Colônia, São Paulo - SP',
     },
     {
       name: 'linkInscricao',
