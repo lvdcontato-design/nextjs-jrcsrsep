@@ -1,4 +1,11 @@
 import './globals.css';
+import { Montserrat } from 'next/font/google';
+
+const montserrat = Montserrat({
+  subsets: ['latin'],
+  weight: ['400', '500', '600', '700', '800'],
+  display: 'swap',
+});
 
 export const metadata = {
   metadataBase: new URL('https://www.estancieiro.com.br'),
@@ -32,14 +39,10 @@ export const metadata = {
   },
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="pt-BR">
-      <body>{children}</body>
+      <body className={montserrat.className}>{children}</body>
     </html>
   );
 }

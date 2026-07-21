@@ -2,18 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
-html {
-  scroll-behavior: smooth;
-}
+*{box-sizing:border-box;}
+body{margin:0;-webkit-font-smoothing:antialiased;}
 
-@keyframes fadeSlideIn {
-  0% {
-    opacity: 0;
-    transform: translateX(24px);
-  }
+@keyframes bounceArrow{0%,100%{transform:translateY(0);opacity:.55;}50%{transform:translateY(9px);opacity:1;}}
+@keyframes logoIntro{0%{opacity:0;transform:scale(.94) translateY(10px);}100%{opacity:1;transform:scale(1) translateY(0);}}
+@keyframes ctaSlideUp{0%{transform:translateY(120%);opacity:0;}100%{transform:translateY(0);opacity:1;}}
 
-  100% {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
+[data-reveal]{opacity:0;transform:translateY(28px);transition:opacity .7s cubic-bezier(.22,.61,.36,1), transform .7s cubic-bezier(.22,.61,.36,1);}
+[data-reveal].is-visible{opacity:1;transform:translateY(0);}
+
+::-webkit-scrollbar{display:none;}
