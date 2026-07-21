@@ -200,6 +200,7 @@ export default function Home() {
   const [scrolled, setScrolled] = useState(false);
   const [isDesktop, setIsDesktop] = useState(true);
   const [loaded, setLoaded] = useState(false);
+  const [scrollProgress, setScrollProgress] = useState(0);
   useReveal();
 
   useEffect(() => {
@@ -208,7 +209,11 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 40);
+    const onScroll = () => {
+      setScrolled(window.scrollY > 40);
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      setScrollProgress(max > 0 ? Math.min(100, Math.max(0, (window.scrollY / max) * 100)) : 0);
+    };
     const onResize = () => setIsDesktop(window.innerWidth >= 1024);
     onResize();
     window.addEventListener('scroll', onScroll, { passive: true });
@@ -241,6 +246,9 @@ export default function Home() {
 
   return (
     <main className="min-h-screen bg-[#FAF8F2] text-[#1B2420] antialiased">
+      <div className="fixed inset-y-0 right-0 z-[150] w-[3px] bg-[#123F2A]/10">
+        <div className="w-full bg-[#1F6B45] transition-[height] duration-100" style={{ height: `${scrollProgress}%` }} />
+      </div>
       <div
         className="fixed inset-0 z-[200] flex items-center justify-center bg-[#0A2417] transition-opacity duration-700"
         style={{ opacity: loaded ? 0 : 1, visibility: loaded ? 'hidden' : 'visible', pointerEvents: 'none' }}
