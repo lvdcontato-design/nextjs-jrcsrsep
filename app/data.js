@@ -1,7 +1,7 @@
 export const eventoConfig = {
   titulo: '2º Fórum Estancieiro',
   slogan: 'Educação, meio ambiente e experiências que transformam',
-  data: '24/07/2026',
+  data: '01/08 - Sábado',
   horario: '09h às 18h',
   local: 'Estância e Parque Ecológico das Águas',
   endereco: 'Estrada do Caibro, 1494 - Colônia, São Paulo - SP, 04898-030',
