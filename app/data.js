@@ -159,6 +159,51 @@ export const palestrantes = [
       'Felipe Bertolini não fala de IA por tendência — constrói. Engenheiro de software pela USP, com passagens por Magazine Luiza e Samsung, cofundou a edtech Questione — que levou IA a estudantes da rede pública em 2023 — e hoje lidera a Brevia, criadora da Lumi: IA que opera empresas reais, incluindo as do Grupo anfitrião deste fórum. Educação e tecnologia, aplicadas juntas há duas décadas.',
     foto: '/palestrante-felipe-bertolini.png',
   },
+  {
+    id: 12,
+    nome: 'Vitor H. Schvartz',
+    tema: 'Filosofia, território e desenvolvimento sustentável',
+    horario: '',
+    bio:
+      'Licenciado em Filosofia e Geografia, Doutor em Filosofia pela USP com pós-doutorado na Johns Hopkins University, foi pesquisador visitante na Columbia University e leciona Geografia e Filosofia.\n\nÉ oficial da reserva da Marinha do Brasil e foi coordenador de desenvolvimento sustentável da SMRI/SP, além de possuir vasta experiência docente em instituições públicas e privadas.',
+    foto: '/palestrante-vitor-schvartz.png',
+  },
+  {
+    id: 13,
+    nome: 'Eduardo Murakami',
+    tema: 'Educação ambiental e direitos humanos nas escolas',
+    horario: '',
+    bio:
+      'Especialista em Educação Ambiental e Direitos Humanos. Biólogo (UNESP) e pós-graduado pela UFABC, é professor da RME e atua na gestão do Núcleo de Educação Ambiental da Secretaria Municipal de Educação de São Paulo (SME/SP), liderando iniciativas de formação de professores e políticas públicas educacionais focadas em sustentabilidade.',
+    foto: '/palestrante-eduardo-murakami.png',
+  },
+  {
+    id: 14,
+    nome: 'Renato Gil Carneiro dos Santos',
+    tema: 'Educação alimentar e nutricional na rede pública',
+    horario: '',
+    bio:
+      'Graduado em Comunicação Social – Jornalismo (Universidade Nove de Julho, 2008), licenciado em Pedagogia (Faculdade Aldeia de Carapicuíba, 2015), bacharel em Direito (Universidade Nove de Julho, 2022) e especialista em Políticas Públicas e Municipalidade (Universidade Cesumar, 2023).\n\nAtua como Diretor da Divisão de Educação Alimentar e Nutricional na Coordenadoria de Alimentação Escolar da Secretaria Municipal de Educação de São Paulo.',
+    foto: '/palestrante-renato-gil.png',
+  },
+  {
+    id: 15,
+    nome: 'Aldo Rebelo',
+    tema: 'Código Florestal e políticas ambientais no Brasil',
+    horario: '',
+    bio:
+      'Jornalista e escritor. Presidiu a Câmara dos Deputados, foi relator do Código Florestal Brasileiro e ministro nas pastas de Coordenação Política e Relações Institucionais; do Esporte; da Ciência, Tecnologia e Inovação e da Defesa; secretário da Casa Civil do Governo de São Paulo e secretário de Relações Internacionais do município de São Paulo.',
+    foto: '/palestrante-aldo-rebelo.png',
+  },
+  {
+    id: 16,
+    nome: 'André Ortega',
+    tema: 'Educomunicação e desenvolvimento sustentável',
+    horario: '',
+    bio:
+      'Formado em Educomunicação (USP). Atuação em políticas públicas, relações internacionais e desenvolvimento sustentável.',
+    foto: '/palestrante-andre-ortega.png',
+  },
 ];
 
 export const atracoes = [
