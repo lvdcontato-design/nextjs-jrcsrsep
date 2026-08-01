@@ -88,6 +88,15 @@ export const palestrantes = [
     foto: '/imagem04_jacknogueira.jpg',
   },
   {
+    id: 17,
+    nome: 'Nara Sá',
+    tema: 'Descubra o Polo de Ecoturismo de São Paulo',
+    horario: '11h00',
+    bio:
+      'Promoção do Turismo — São Paulo Turismo / Prefeitura de São Paulo.\n\nAtua na promoção do turismo na empresa municipal de turismo e eventos da capital paulista, promovendo os atrativos turísticos do Polo de Ecoturismo de São Paulo.\n\nNesta palestra, será possível conhecer os atrativos do Polo de Ecoturismo de São Paulo, seus circuitos turísticos, os produtos turísticos do território e as perspectivas para o desenvolvimento do ecoturismo na região.\n\nAtuante no setor público desde 2001, a jornalista trabalha com ações de promoção do Polo de Ecoturismo de São Paulo desde a criação do território, em 2014, incluindo marketing, treinamentos e eventos. É jornalista, com expertise em web content development, social media, press relations, relações governamentais e assessoria política. É também ativista da causa animal há dezoito anos. Sua formação inclui pós-graduação em Relações Internacionais, Ética e Filosofia Política e Audiovisual, além de MBA em Mercado Pet, e é mestre em Letras Africanas.',
+    foto: '/palestrante-nara-sa.jpeg',
+  },
+  {
     id: 4,
     nome: 'Bianca Nunes',
     tema: 'Educação bilíngue e práticas pedagógicas',
